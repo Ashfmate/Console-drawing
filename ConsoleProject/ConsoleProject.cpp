@@ -1,20 +1,34 @@
-// ConsoleProject.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include "Game.h"
+#include <windows.h>
+
+Game game;
+
+void hidecursor() //Saih gave me this, it just hides the cursor, I don't know exactly what it do but the bVisible is set to false, that I understand
+{
+	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO info;
+	info.dwSize = 100;
+	info.bVisible = false;
+	SetConsoleCursorInfo(consoleHandle, &info);
+}
+
+void BigWindow() //The name heh, it just set the size of the console window in the beginning so that we don't have to set anything
+{
+	HWND console = GetConsoleWindow();
+	RECT ConsoleRect;
+	GetWindowRect(console, &ConsoleRect);
+
+	MoveWindow(console, ConsoleRect.left, ConsoleRect.top, 1440, 900, TRUE);
+}
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	BigWindow();
+	hidecursor();
+	//calling the two functions at start so that they don't have to be repeated
+	while (true) //	I did not want any code to be made in main because it is cpp without a header file and I am more used to header files
+	{
+		game.Go();
+	} // repeates the go functions which implements all of the code we would need (another cpp file is made for implementation) until the console is closed
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
